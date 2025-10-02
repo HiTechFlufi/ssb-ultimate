@@ -3033,8 +3033,8 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		},
 	},
 	{
-		name: "[Gen 9] Super Staff Bros Ultimate",
-		desc: "The fifth iteration of Super Staff Bros is here! Battle with a random team of pokemon created by the sim staff.",
+		name: "[Gen 9] SSB Ultimate",
+		desc: "SSB Ultimate is the fifth release of a personalized metagame that is a glorified version of Super Staff Brothers with many unique characters created by a team of creators.",
 		mod: 'gen9ssb',
 		debug: true,
 		team: 'randomStaffBros',
@@ -3081,6 +3081,48 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 				this.dex.forGen(9).species.get((pokemon.illusion || pokemon).species.name).types.join('/') &&
 				!pokemon.terastallized) {
 				this.add('-start', pokemon, 'typechange', (pokemon.illusion || pokemon).getTypes(true).join('/'), '[silent]');
+			}
+		},
+		// Start the clock when Auto-Repair user faints
+		onFaint(pokemon) {
+			if (pokemon.ability.id === 'autorepair') {
+				pokemon.abilityState.fntTurns = 0;
+			}
+		},
+		onResidual() {
+			for (const pokemon of this.getAllPokemon()) {
+				if (pokemon.hp <= 0 && !pokemon.fainted) pokemon.hp = 0;
+				if (pokemon.getAbility().id === 'autorepair') {
+					if (pokemon.abilityState.disabled || pokemon.fainted || pokemon.isActive) continue;
+					if (pokemon.hp > pokemon.maxhp) pokemon.hp = pokemon.maxhp;
+					const health = pokemon.maxhp * 0.15;
+					pokemon.hp += health;
+					this.add('-heal', pokemon, pokemon.getHealth);
+				}
+			}
+		},
+		onUpdate() {
+			for (const pokemon of this.getAllPokemon()) {
+				const ability = pokemon.getAbility().id;
+				if (ability === 'autorepair' && !pokemon.hp && !pokemon.abilityState.reviveInit) {
+					pokemon.abilityState.reviveInit = true;
+					pokemon.abilityState.fntTurn = this.turn;
+				}
+				if (ability === 'autorepair' && !pokemon.hp && pokemon.abilityState.reviveInit) {
+					let turnCount = this.turn - pokemon.abilityState.fntTurn;
+					if (turnCount >= 6) {
+						pokemon.fainted = false;
+						pokemon.faintQueued = false;
+						pokemon.subFainted = false;
+						pokemon.status = '';
+						pokemon.hp = 1;
+						pokemon.sethp(1);
+						pokemon.side.pokemonLeft++;
+						pokemon.abilityState.reviveInit = false;
+						this.add('-message', `${pokemon.getAbility().name} activated!`);
+						this.add('-message', `${pokemon.name} is back in the fight!`);
+					}
+				}
 			}
 		},
 	},
