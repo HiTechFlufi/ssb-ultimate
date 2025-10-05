@@ -25,6 +25,11 @@ export const ssbSets: SSBSets = {
 		signatureMove: 'Turbocharge',
 		evs: {hp: 128, spa: 128, spe: 252}, nature: 'Hasty',
 	},
+	'Journeyman': {
+		species: 'Stonjourner', ability: 'Blistering Endurance', item: 'Explorer\'s Scope', gender: 'M',
+		moves: ['Mighty Cleave', 'Earthquake', 'Stealth Rock'],
+		signatureMove: 
+	},
 };
 
 const afdSSBSets: SSBSets = {
