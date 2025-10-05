@@ -19,12 +19,6 @@ export interface SSBSet {
 interface SSBSets { [k: string]: SSBSet }
 
 export const ssbSets: SSBSets = {
-	'Cyclommatic Cell': {
-		species: 'Vikavolt', ability: 'Battery Life', item: 'Apparatus', gender: 'N',
-		moves: ['Parabolic Charge', 'Bug Buzz', 'Techno Blast'],
-		signatureMove: 'Galvanic Web',
-		evs: {hp: 252, spa: 252, spd: 4}, ivs: {spe: 29}, nature: 'Modest',
-	},
 	'Shifu Robot': {
 		species: 'Iron Thorns', ability: 'Auto-Repair', item: 'Absorptive Shell', gender: 'N',
 		moves: ['Techno Blast', 'Flash Cannon', 'Explosion'],
