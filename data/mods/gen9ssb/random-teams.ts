@@ -25,10 +25,17 @@ export const ssbSets: SSBSets = {
 		signatureMove: 'Turbocharge',
 		evs: {hp: 128, spa: 128, spe: 252}, nature: 'Hasty',
 	},
-	'Journeyman': {
-		species: 'Stonjourner', ability: 'Blistering Endurance', item: 'Explorer\'s Scope', gender: 'M',
-		moves: ['Mighty Cleave', 'Earthquake', 'Stealth Rock'],
-		signatureMove: 
+	'Glint': {
+		species: 'Meltan', ability: 'Augment the Giants', item: 'Slag', gender: 'M',
+		moves: ['Metal Burst', 'Thunder Wave', 'Soft-Boiled'],
+		signatureMove: 'Nephilim Prayer',
+		evs: {hp: 252, def: 4, spd: 252}, nature: 'Careful',
+	},
+	'Glint the Vast': {
+		species: 'Melmetal', ability: 'Augment the Giants', item: 'Molten Slag', gender: 'M',
+		moves: ['Double Iron Bash', 'Gigaton Hammer', 'Stomping Tantrum'],
+		signatureMove: 'Hammerfall',
+		evs: {atk: 252, def: 4, spd: 252}, nature: 'Adamant', skip: 'Glint',
 	},
 };
 
