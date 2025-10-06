@@ -19,4 +19,5 @@ export const Items: import('../../../sim/dex-items').ModdedItemDataTable = {
 				this.add('-message', `${pokemon.name}'s ${move.name} became ${pokemon.abilityState.newType}-type!`);
 			}
 		},
+	},
 };
