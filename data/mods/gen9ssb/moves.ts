@@ -3,6 +3,76 @@ import { PSEUDO_WEATHERS, changeSet, getName } from "./scripts";
 import { Teams } from '../../../sim/teams';
 
 export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
+	// Glint
+	nephilimprayer: {
+		name: "Nephilim Prayer",
+		basePower: 0,
+		category: "Status",
+		shortDesc: "+25% HP; Safeguard/Lucky Chant; 70% +1 DEF.",
+		desc: "Heals the user by 25% of its max HP. Starts Safeguard and Lucky Chant. 70% chance to raise the user's Defense by 1 stage.",
+		accuracy: true,
+		gen: 9,
+		pp: 5,
+		priority: 0,
+		flags: { bypasssub: 1, metronome: 1 },
+		onTryMove() {
+			this.attrLastMove('[still]');
+		},
+		onPrepareHit(target, source, move) {
+			this.add('-anim', source, 'Sing', source);
+			this.add('-anim', source, 'Work Up', source);
+		},
+		onHit(pokemon) {
+			pokemon.side.addSideCondition('safeguard');
+			pokemon.side.addSideCondition('luckychant');
+		},
+		secondary: {
+			chance: 70,
+			self: {
+				boosts: {
+					def: 1,
+				},
+			},
+		},
+		heal: [1, 4],
+		type: "Normal",
+		target: "self",
+	},
+	// Glint the Vast
+	hammerfall: {
+		accuracy: 90,
+		basePower: 50,
+		category: "Physical",
+		shortDesc: "+Fire; User moves first in priority bracket next turn.",
+		desc: "Combines Fire into its type effectiveness. If it hits, the user moves first in its priority bracket next turn.",
+		name: "Hammerfall",
+		gen: 9,
+		pp: 5,
+		priority: 0,
+		flags: { contact: 1, metronome: 1, protect: 1 },
+		onTryMove() {
+			this.attrLastMove('[still]');
+		},
+		onPrepareHit(target, source) {
+			this.add('-anim', source, 'Hyper Voice', source);
+			this.add('-anim', source, 'Raging Fury', target);
+		},
+		onEffectiveness(typeMod, target, type, move) {
+			return typeMod + this.dex.getEffectiveness('Fire', type);
+		},
+		onHit(pokemon) {
+			pokemon.addVolatile('hammerfall');
+		},
+		condition: {
+			duration: 1,
+			onFractionalPriority(priority, pokemon, target, move) {
+				return 0.1;
+			},
+		},
+		secondary: null,
+		target: "normal",
+		type: "Steel",
+	},
 	// Shifu Robot
 	turbocharge: {
 		accuracy: true,
