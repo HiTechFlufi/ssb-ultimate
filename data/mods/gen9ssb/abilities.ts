@@ -18,12 +18,14 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		onResidual(pokemon) {
 			if (pokemon.activeTurns) pokemon.abilityState.turns++;
 			if (pokemon.name === 'Glint' && pokemon.abilityState.turns >= 1) {
-				this.add('-activate', pokemon, pokemon.ability)
-				changeSet(this, source, ssbSets['Glint the Vast'], true);
+				this.add('-activate', pokemon, 'ability: Augment the Giants');
+				this.add('-anim', pokemon, 'Shift Gear', pokemon);
+				changeSet(this, pokemon, ssbSets['Glint the Vast'], true);
 				pokemon.abilityState.turns = 0;
 			} else if (pokemon.name === 'Glint the Vast' && pokemon.abilityState.turns >= 2) {
-				this.add('-activate', pokemon, pokemon.ability)
-				changeSet(this, source, ssbSets['Glint'], true);
+				this.add('-activate', pokemon, 'ability: Augment the Giants')
+				this.add('-anim', pokemon, 'Shift Gear', pokemon);
+				changeSet(this, pokemon, ssbSets['Glint'], true);
 				pokemon.abilityState.turns = 0;
 			} else {
 				this.add('-anim', pokemon, 'Shift Gear', pokemon);
