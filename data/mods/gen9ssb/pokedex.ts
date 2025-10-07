@@ -9,7 +9,7 @@ export const Pokedex: import('../../../sim/dex-species').ModdedSpeciesDataTable 
 	// Shifu Robot
 	ironthorns: {
 		inherit: true,
-		types: ["Steel"],
+		types: ["Electric", "Steel"],
 		abilities: { 0: "Auto-Repair" },
 	},
 
